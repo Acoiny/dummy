@@ -1,58 +1,37 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Testing a api</title>
     <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <h1>Testing a api</h1>
-    <button onclick="getChuck()">Chuck chuck chuck!</button>
-    <p1 id="joke"></p1>
-    <button onclick="getUseless()">Useless fact</button>
-    <p1 id="uselessfact"></p1>
-    <button onclick="getMemes()">Meme</button>
-    <img id="meme" src="" alt="Meme" width="50%" height="50%">
-    <script>
-        getMemes();
-        getChuck();
-        getUseless();
+    <link rel="stylesheet" href="css/api.css">
 
-        function getUseless()
-        {
-            fetch('https://uselessfacts.jsph.pl/api/v2/facts/random')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('uselessfact').innerText = data.text;
-                    console.table(data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-        
-        function getMemes() {
-            fetch('https://api.imgflip.com/get_memes')
-                .then(response => response.json())
-                .then(data => {
-                    const meme = document.getElementById('meme');
-                    const id = Math.floor(Math.random() * data.data.memes.length);
-                    meme.src = data.data.memes[id].url;
-                    meme.alt = data.data.memes[id].name;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-        function getChuck() {
-            fetch('https://api.chucknorris.io/jokes/random')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('joke').innerText = data.value;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            }
-    </script>
+    <script src="js/api/api.js"></script>
+</head>
+
+<body>
+    <h1>Funny APIs</h1>
+    <section>
+        <h2>Random dog images</h2>
+        <img id="dog" src="" alt="Dog">
+        <button onclick="getDog()">Dog</button>
+    </section>
+    <section>
+        <h2>Chuck Norris jokes</h2>
+        <p1 id="joke"></p1>
+        <button onclick="getChuck()">Chuck chuck chuck!</button>
+    </section>
+    <section>
+        <h2>Useless facts</h2>
+        <p1 id="uselessfact"></p1>
+        <button onclick="getUseless()">Useless fact</button>
+    </section>
+    <section>
+        <h2>Random meme</h2>
+        <img id="meme" src="" alt="Meme">
+        <button onclick="getMemes()">Meme</button>
+    </section>
+
 </body>
+
 </html>
