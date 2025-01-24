@@ -1,7 +1,29 @@
 import { Food, SnakeTile } from "./entity.js";
 
+/**
+ * Convert arrow keys to WASD
+ * @param {string} key 
+ */
+function arrowToWASD(key) {
+    switch (key) {
+        case "ArrowUp":
+            return "w";
+        case "ArrowLeft":
+            return "a";
+        case "ArrowDown":
+            return "s";
+        case "ArrowRight":
+            return "d";
+        default:
+            return key;
+    }
+}
+
 export class Game {
     constructor(canvas) {
+        // state
+        this.gameState = "stopped";
+
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
 
@@ -9,14 +31,14 @@ export class Game {
 
         this.numLines = 20;
 
-        this.buildGame();
+        this.#buildGame();
 
-        addEventListener("keypress", (event) => {
-            const k = event.key;
+        addEventListener("keydown", (event) => {
+            const k = arrowToWASD(event.key);
 
             if (k === "w" || k === "a" || k === "s" || k === "d") {
                 // prevent the snake from going in the opposite direction
-                switch(this.dir) {
+                switch (this.dir) {
                     case "w":
                         if (k === "s") return;
                         break;
@@ -35,7 +57,55 @@ export class Game {
         });
     }
 
-    buildGame() {
+    loopIteration() {
+        const currentTime = performance.now() / 1000;
+
+        const dt = currentTime - this.previousTime;
+
+        // if not enough time has elapsed, return
+        if (dt < this.gameSpeed) return;
+
+        // console.log("step: ", dt);
+
+        this.#update();
+        this.previousTime = currentTime;
+
+        this.#draw();
+    }
+
+    start() {
+        this.#buildGame();
+        this.gameState = "running";
+    }
+
+    restart() {
+        this.#buildGame();
+        this.gameState = "running";
+    }
+
+    drawPauseScreen() {
+        this.#draw();
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+        this.ctx.fillRect(0, 0, this.size.x, this.size.y);
+
+        this.ctx.fillStyle = "white";
+        this.ctx.font = "30px Arial";
+        this.ctx.fillText("Paused", this.size.x / 2 - 50, this.size.y / 2);
+    }
+
+    drawLostScreen() {
+        this.#draw();
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+        this.ctx.fillRect(0, 0, this.size.x, this.size.y);
+
+        this.ctx.fillStyle = "white";
+        this.ctx.font = "30px Arial";
+        this.ctx.fillText("You lost!", this.size.x / 2 - 50, this.size.y / 2);
+    }
+
+    #buildGame() {
+        document.getElementById("highscore").innerHTML = localStorage.getItem("highscore") || 0;
+
         this.tilesize = this.size.y / this.numLines;
         const ts = this.tilesize;
 
@@ -52,28 +122,27 @@ export class Game {
         this.dir = "d";
         this.score = 0;
 
-        this.spawnPellet();
+        this.lost = false;
+
+        this.#spawnPellet();
     }
 
-    loopIteration() {
-        const currentTime = performance.now() / 1000;
+    #looseGame() {
+        this.gameState = "lost";
+        const prevScore = localStorage.getItem("highscore") || 0;
+        if(this.score > prevScore) {
+            localStorage.setItem("highscore", this.score);
+            document.getElementById("highscore").innerHTML = this.score;
+        }
+    }
 
-        const dt = currentTime - this.previousTime;
-
-        // if not enough time has elapsed, return
-        if (dt < this.gameSpeed) return;
-
-        // console.log("step: ", dt);
-
-        this.update();
-        this.previousTime = currentTime;
-
+    #draw() {
         this.ctx.clearRect(0, 0, this.size.x, this.size.y);
 
         // draw something
-        this.drawElements();
+        this.#drawElements();
         // drawing the grid after, because tiles should only color the cells
-        this.drawGrid();
+        this.#drawGrid();
 
         // draw score
         this.ctx.fillStyle = "black";
@@ -81,7 +150,7 @@ export class Game {
         this.ctx.fillText("Score: " + this.score, 10, 30);
     }
 
-    checkPosition() {
+    #checkPosition() {
         const head = this.elements[0];
 
         if (head.position.x < 0) head.position.x = this.size.x - this.tilesize;
@@ -99,8 +168,9 @@ export class Game {
             if (
                 el.position.x === head.position.x &&
                 el.position.y === head.position.y
-            )
-                this.buildGame();
+            ) {
+                this.#looseGame();
+            }
         }
 
         // check if head collides with pellet
@@ -109,7 +179,7 @@ export class Game {
             head.position.y === this.pellet.position.y
         ) {
             this.elongate = true;
-            this.spawnPellet();
+            this.#spawnPellet();
             this.score++;
 
             // increase speed every 10 points
@@ -117,7 +187,7 @@ export class Game {
         }
     }
 
-    update() {
+    #update() {
         // update snake
         const head = this.elements[0];
 
@@ -138,7 +208,7 @@ export class Game {
                 break;
         }
 
-        this.checkPosition();
+        this.#checkPosition();
 
         for (let i = 1; i < this.elements.length; i++) {
             const el = this.elements[i];
@@ -163,7 +233,7 @@ export class Game {
     /**
      * Draw a grid on the canvas
      */
-    drawGrid() {
+    #drawGrid() {
         for (let i = 0; i < this.numLines; i++) {
             this.ctx.fillStyle = "black";
             this.ctx.moveTo(0, (i * this.size.y) / this.numLines);
@@ -180,7 +250,7 @@ export class Game {
         this.ctx.stroke();
     }
 
-    drawElements() {
+    #drawElements() {
         const len = this.elements.length;
 
         for (let i = len - 1; i >= 0; i--) {
@@ -193,7 +263,7 @@ export class Game {
     /**
      * Spawns a pellet at a random position
      */
-    spawnPellet() {
+    #spawnPellet() {
         let x, y;
 
         outer: while (1) {

@@ -1,37 +1,45 @@
 import { Game } from "./game.js";
 
-let game;
+let game = new Game(document.getElementById("game"));
 
-let running = false;
-
-let id = 0;
+let id = requestAnimationFrame(loop);
 
 function loop() {
-    game.loopIteration();
+    switch (game.gameState) {
+        case "stopped":
+            break;
+        case "running":
+            game.loopIteration();
+            break;
+        case "paused":
+            game.drawPauseScreen();
+            break;
+        case "lost":
+            game.drawLostScreen();
+            document.getElementById("btn").innerHTML = "Restart";
+            break;
+    }
+
     id = requestAnimationFrame(loop);
 }
 
-console.log("main.js loaded");
-
-window.start = function () {
-    if (!running) {
-        // create game if not existent
-        if (!game) {
-            game = new Game(document.getElementById("game"));
-        } else {
-            game.buildGame();
-        }
-
-        running = true;
-        id = requestAnimationFrame(loop);
-
-        document.getElementById("btn").innerHTML = "Stop";
-    } else {
-        cancelAnimationFrame(id);
-        running = false;
-
-        document.getElementById("btn").innerHTML = "Start";
-
-        game.ctx.clearRect(0, 0, game.size.x, game.size.y);
+window.start = () => {
+    switch (game.gameState) {
+        case "stopped":
+            game.start();
+            document.getElementById("btn").innerHTML = "Pause";
+            break;
+        case "running":
+            game.gameState = "paused";
+            document.getElementById("btn").innerHTML = "Resume";
+            break;
+        case "paused":
+            game.gameState = "running";
+            document.getElementById("btn").innerHTML = "Pause";
+            break;
+        case "lost":
+            game.restart();
+            document.getElementById("btn").innerHTML = "Pause";
+            break;
     }
 };
