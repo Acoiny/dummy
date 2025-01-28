@@ -14,20 +14,13 @@
     <p id="timer" style="font-size:1000%;">00</p>
     <div class="popup-form" id="myForm">
         <form action="" class="form-container" id="timer-form">
-            <h1>Set Timer</h1>
-            <label for="title"><b>Title</b></label>
-            <input type="text" placeholder="Title" name="formTitle" id="formTitle">
-            <label for="days"><b>Days</b></label>
-            <input type="number" placeholder="Days" name="days" id="days" required>
-            <label for="hours"><b>Hours</b></label>
-            <input type="number" placeholder="Hours" name="hours" id="hours" required>
-            <label for="minutes"><b>Minutes</b></label>
-            <input type="number" placeholder="Minutes" name="minutes" id="minutes" required>
-            <label for="seconds"><b>Seconds</b></label>
-            <input type="number" placeholder="Seconds" name="seconds" id="seconds" required>
+            <h2>Time of event</h2>
+            <input type="text" id="formTitle" name="formTitle" placeholder="Event" required>
+            <input type="date" id="formDate" name="formDate" required>
+            <input type="time" id="formTime" name="formTime" required>
             <button type="submit" class="btn">Set timer</button>
             <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
     </div>
-    <button id="closeFormButton" onclick="openForm()">Set Timer</button>
+    <button id="openFormButton" type="button" onclick="openForm()">Set Timer</button>
 </body>
 </html>
