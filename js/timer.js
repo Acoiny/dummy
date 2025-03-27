@@ -1,17 +1,18 @@
-const title = document.getElementById('title');
+const titleElement = document.getElementById('title');
 const timer = document.getElementById('timer');
 
 const eventTime =
 {
     time: new Date('2025-1-27 18:00:00'),
-    _title: 'Evening Party',
-    get title() {
-        return this._title;
-    },
-    set title(value) {
-        this._title = value;
-        title.innerHTML = value;
-    }
+    title: 'Evening Party',
+}
+
+// check if localstorage has a timer
+const storedTimer = localStorage.getItem('timer');
+if (storedTimer) {
+    const timer = JSON.parse(storedTimer);
+    eventTime.time = new Date(timer.time);
+    eventTime.title = timer.title;
 }
 
 function updateTimer() {
@@ -37,7 +38,7 @@ function updateTimer() {
     timer.innerHTML = `${days}:${hours}:${minutes}:${seconds}`;
 }
 
-title.innerHTML = eventTime.title;
+titleElement.innerHTML = eventTime.title;
 
 updateTimer();
 setInterval(updateTimer, 1000);
@@ -45,33 +46,40 @@ setInterval(updateTimer, 1000);
 // custom submit function for the form
 document.getElementById('timer-form').onsubmit = (e) => {
     e.preventDefault();
-    const days = Number(document.getElementById('days').value);
-    const hours = Number(document.getElementById('hours').value);
-    const minutes = Number(document.getElementById('minutes').value);
-    const seconds = Number(document.getElementById('seconds').value);
+
+    const date = document.getElementById('formDate').value;
+    const time = document.getElementById('formTime').value;
 
     const title = document.getElementById('formTitle').value || "Event";
 
+    const res = new Date(`${date} ${time}`);
+
     console.log("Form submitted");
-    console.log({title, days, hours, minutes, seconds});
-    addTimer(days, hours, minutes, seconds, title);
+    console.log(res);
+    addTimer(res, title);
 };
 
 // close the form, by hiding it
 window.closeForm = () => {
     document.getElementById('timer-form').style.display = 'none';
-    document.getElementById('closeFormButton').style.display = 'block';
+    document.getElementById('openFormButton').style.display = 'block';
 };
 
 window.openForm = () => {
     document.getElementById('timer-form').style.display = 'block';
-    document.getElementById('closeFormButton').style.display = 'none';
+    document.getElementById('openFormButton').style.display = 'none';
 };
 
 closeForm();
 
-function addTimer(days, hours, minutes, seconds, title = "Event") {
-    eventTime.time = new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000 + hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000);
+function addTimer(date, title) {
+    eventTime.time = date;
     eventTime.title = title;
+    titleElement.innerHTML = title;
+
+    const str = JSON.stringify(eventTime);
+    
+    localStorage.setItem('timer', str);
+
     updateTimer();
 };
