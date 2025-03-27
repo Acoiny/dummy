@@ -2,7 +2,7 @@ import { Food, SnakeTile } from "./entity.js";
 
 /**
  * Convert arrow keys to WASD
- * @param {string} key 
+ * @param {string} key
  */
 function arrowToWASD(key) {
     switch (key) {
@@ -52,7 +52,7 @@ export class Game {
                         if (k === "a") return;
                         break;
                 }
-                this.dir = k;
+                this.ndir = k;
             }
         });
     }
@@ -104,7 +104,8 @@ export class Game {
     }
 
     #buildGame() {
-        document.getElementById("highscore").innerHTML = localStorage.getItem("highscore") || 0;
+        document.getElementById("highscore").innerHTML =
+            localStorage.getItem("highscore") || 0;
 
         this.tilesize = this.size.y / this.numLines;
         const ts = this.tilesize;
@@ -120,6 +121,7 @@ export class Game {
         this.gameSpeed = 0.5;
 
         this.dir = "d";
+        this.ndir = "d";
         this.score = 0;
 
         this.lost = false;
@@ -130,7 +132,7 @@ export class Game {
     #looseGame() {
         this.gameState = "lost";
         const prevScore = localStorage.getItem("highscore") || 0;
-        if(this.score > prevScore) {
+        if (this.score > prevScore) {
             localStorage.setItem("highscore", this.score);
             document.getElementById("highscore").innerHTML = this.score;
         }
@@ -193,7 +195,7 @@ export class Game {
 
         let prevPos = { x: head.position.x, y: head.position.y };
 
-        switch (this.dir) {
+        switch (this.ndir) {
             case "w":
                 head.position.y -= this.tilesize;
                 break;
@@ -207,6 +209,8 @@ export class Game {
                 head.position.x += this.tilesize;
                 break;
         }
+
+        this.dir = this.ndir;
 
         this.#checkPosition();
 
