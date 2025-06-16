@@ -99,9 +99,10 @@ li:hover::before {
     background: var(--color-6);
 }
 
+
 button {
-    background-color: #ff0000;
-    color: #ffffff;
+    background-color: var(--color-4);
+    color: #f0f0f0;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -109,14 +110,17 @@ button {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+
+    transition: all 0.3s ease;
 }
 
 button:hover {
-    background-color: #ff3333;
+    background-color: var(--color-5);
 }
 
 button:active {
-    background-color: #cc0000;
+    background-color: var(--color-6);
 }
 
 #game2 {
