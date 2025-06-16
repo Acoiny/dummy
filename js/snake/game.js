@@ -111,7 +111,7 @@ export class Game {
         const ts = this.tilesize;
 
         this.elements = [
-            new SnakeTile(ts * 4, ts * 2, ts, "orange"),
+            new SnakeTile(ts * 4, ts * 2, ts, "#e6c212"),
             new SnakeTile(ts * 3, ts * 2, ts),
             new SnakeTile(ts * 2, ts * 2, ts),
         ];

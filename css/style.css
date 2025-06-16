@@ -1,25 +1,102 @@
-body {
-    background-color: #888888;
-    font-family: "Smooch Sans", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
-    font-size: x-large;
+:root {
+    --main-bg: #551239;
+    --color-2: #8b3045;
+    --color-3: #bb574a;
+    --color-4: #df874c;
+    --color-5: #f5be55;
+    --color-6: #f9f871;
+}
 
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+body {
+    font-family: JetBrains Mono, monospace;
+    color: #f0f0f0;
+    background-color: var(--main-bg);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    margin-left: 30%;
+    margin-right: 30%;
 }
 
-section{
+/**
+* Header styles
+*/
+.main-heading {
+    color: var(--color-4);
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+h2.section-heading {
+    color: var(--color-4);
+    text-align: left;
+    margin-bottom: 24px;
+    margin-top: 32px;
+    font-size: 1.6em;
+    font-weight: bold;
+    width: 100%;
+    padding: 12px 32px;
+    background: linear-gradient(270deg, var(--main-bg) 60%, #ffb86c22 100%);
+    border-left: 6px solid #ffb86c;
+    border-radius: 0 16px 16px 0;
+    box-shadow: 2px 4px 16px #0002;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px #0008;
+
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/**
+* link styles
+*/
+a {
+    /*color: #67d4ff;*/
+    color: var(--color-5);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    /*color: #71ff6c;*/
+    color: var(--color-6);
+}
+
+/*
+* List styles
+*/
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin: 10px 0;
+    padding-left: 1.5em;
+    transition: color 0.8s ease;
+}
+
+li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.45em;
+    width: 0.8em;
+    height: 0.8em;
+    background: var(--color-5);
+    border-radius: 2px;
+    transform: rotate(0deg);
+    transition: transform 0.6s;
+}
+
+li:hover::before {
+    transform: rotate(45deg);
+    background: var(--color-6);
 }
 
 button {

@@ -3,23 +3,22 @@
 
 <head>
     <title>Simple snake game</title>
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/snake.css">
     <script type="module" defer src="js/snake/main.js"></script>
 </head>
 
 <body>
-    <h1>Simple classic snake</h1>
+    <h1 class="main-heading">Simple classic snake</h1>
     <p></p>
     <div class="game-container">
-        <section>
-            <h2>Controls</h2>
+            <h2 class="section-heading">Controls</h2>
             <p>Use the arrow keys or WASD to move the snake</p>
 
             <section class="highscore-container">
                 <h3>Personal highscore:</h3>
                 <h3 id="highscore" style="margin-left: 10px;"></h3>
             </section>
-        </section>
         <canvas width="500" height="500" id="game"></canvas>
     </div>
     <button type="button" id="btn" onclick="start()">Start</button>
