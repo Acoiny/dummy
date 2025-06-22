@@ -99,7 +99,6 @@ li:hover::before {
     background: var(--color-6);
 }
 
-
 button {
     background-color: var(--color-4);
     color: #f0f0f0;

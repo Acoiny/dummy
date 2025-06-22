@@ -57,6 +57,8 @@ document.getElementById('timer-form').onsubmit = (e) => {
     console.log("Form submitted");
     console.log(res);
     addTimer(res, title);
+
+    window.closeForm();
 };
 
 // close the form, by hiding it

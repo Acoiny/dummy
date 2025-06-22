@@ -4,9 +4,7 @@ export class Physics {
 
     #entities = [];
 
-    constructor() {
-        
-    }
+    constructor() {}
 
     /**
      * Registers a new entity to the physics engine
@@ -40,4 +38,4 @@ export class Physics {
             }
         }
     }
-};
+}
