@@ -70,6 +70,10 @@ window.closeForm = () => {
 window.openForm = () => {
     document.getElementById('timer-form').style.display = 'block';
     document.getElementById('openFormButton').style.display = 'none';
+
+    document.getElementById('formDate').value = eventTime.time.toISOString().split('T')[0];
+    document.getElementById('formTime').value = eventTime.time.toTimeString().split(' ')[0];
+    document.getElementById('formTitle').value = eventTime.title || '';
 };
 
 closeForm();
