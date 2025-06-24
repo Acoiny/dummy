@@ -3,8 +3,12 @@ const timer = document.getElementById('timer');
 
 const eventTime =
 {
-    time: new Date('2025-1-27 18:00:00'),
-    title: 'Evening Party',
+    time: (() => {
+        const today = new Date();
+        today.setHours(23, 59, 59, 999); // Set to midnight of the current day
+        return today;
+    })(),
+    title: 'Midnight',
 }
 
 // check if localstorage has a timer
