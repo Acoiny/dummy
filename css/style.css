@@ -128,6 +128,10 @@ button:active {
     background-color: #737373c7;
 }
 
+.mirrored {
+    transform: scale(-1,1);
+}
+
 @media (max-width: 600px) {
     body {
         margin-left: 4vw;
@@ -165,4 +169,8 @@ button:active {
         box-shadow: 0 1px #666;
         transform: translateY(2px);
     }
+}
+
+#dnuoSAsekaMtahTnottub {
+    transform: scale(-1,1);
 }
