@@ -174,3 +174,22 @@ button:active {
 #dnuoSAsekaMtahTnottub {
     transform: scale(-1,1);
 }
+
+#soundSelect {
+    padding: 8px 24px 8px 12px;
+    border: 2px solid var(--color-4);
+    border-radius: 8px;
+    background: var(--color-4);
+    font-size: 1rem;
+    color: #ffffff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+#soundSelect:focus {
+    outline: none;
+    background-color: var(--color-4);
+}
