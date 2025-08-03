@@ -23,7 +23,12 @@ const nothingButton = document.getElementById("nothing-button");
 nothingButton.onclick = () => {
     nothingButton.innerHTML += "?";
 
-    nothingButton.onclick = () => {
+    // all other clicks only change the sound
+    const nextClicks = () => {
         sound = sound === "click_sound" ? "click2_sound" : "click_sound";
     };
+
+    nextClicks();
+
+    nothingButton.onclick = nextClicks;
 };
